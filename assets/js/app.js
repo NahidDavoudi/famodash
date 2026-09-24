@@ -3,7 +3,7 @@
  *
  * Auth guard, navigation, logout, shared state.
  */
-import API from '../../../shared/js/api.js';
+import API from './api.js';
 
 /* ── Shared state ── */
 let _studentId = null;

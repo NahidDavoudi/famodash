@@ -1,7 +1,7 @@
 /**
  * Profile page — read-only student info.
  */
-import API from '../../../shared/js/api.js';
+import API from './api.js';
 import { getStudentId } from './app.js';
 
 export async function load() {

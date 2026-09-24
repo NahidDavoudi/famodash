@@ -1,7 +1,7 @@
 /**
  * Files page — read-only file list.
  */
-import API from '../../../shared/js/api.js';
+import API from './api.js';
 import { getStudentId } from './app.js';
 import { toJalaliDateTime } from './date.js';
 

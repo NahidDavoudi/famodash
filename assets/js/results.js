@@ -1,7 +1,7 @@
 /**
  * Results page — exam dates list + in-page detail drill-down with charts.
  */
-import API from '../../../shared/js/api.js';
+import API from './api.js';
 import { getStudentId } from './app.js';
 import { toJalaliLong, jalaliMonthKey, jalaliMonthLabel } from './date.js';
 
