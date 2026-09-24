@@ -31,19 +31,31 @@ export async function load() {
         const tbody = document.getElementById('filesTbody');
         if (tbody) {
             tbody.innerHTML = files.map(f => {
-                const size = f.size
-                    ? f.size < 1024
-                        ? `${f.size} B`
-                        : f.size < 1048576
-                            ? `${(f.size / 1024).toFixed(1)} KB`
-                            : `${(f.size / 1048576).toFixed(1)} MB`
+                const filePath = f.file_path ?? f.path ?? '';
+                const originalName = f.original_name ?? f.original_filename ?? f.name
+                    ?? filePath.split(/[\\/]/).pop() ?? '-';
+                const fileSize = Number(f.size ?? f.file_size ?? 0);
+                const fileType = f.mime_type ?? f.file_type ?? '';
+                const uploadedAt = f.uploaded_at ?? f.created_at;
+                const size = fileSize
+                    ? fileSize < 1024
+                        ? `${fileSize} B`
+                        : fileSize < 1048576
+                            ? `${(fileSize / 1024).toFixed(1)} KB`
+                            : `${(fileSize / 1048576).toFixed(1)} MB`
                     : '-';
+                const type = fileType.includes('/')
+                    ? fileType.split('/').pop()
+                    : fileType.toUpperCase() || '-';
+                const text = (value) => String(value ?? '-').replace(/[&<>"']/g, char => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[char]));
                 return `<tr>
-                    <td class="font-medium">${f.original_name ?? '-'}</td>
-                    <td>${(f.mime_type ?? '').split('/').pop() || '-'}</td>
-                    <td>${size}</td>
-                    <td>${toJalaliDateTime(f.uploaded_at)}</td>
-                    <td class="text-muted-foreground">${f.description ?? '-'}</td>
+                    <td data-label="نام فایل" class="font-medium">${text(originalName)}</td>
+                    <td data-label="نوع">${text(type)}</td>
+                    <td data-label="حجم">${text(size)}</td>
+                    <td data-label="تاریخ آپلود">${text(uploadedAt ? toJalaliDateTime(uploadedAt) : '-')}</td>
+                    <td data-label="توضیحات" class="text-muted-foreground">${text(f.description)}</td>
                 </tr>`;
             }).join('');
         }

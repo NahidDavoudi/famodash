@@ -166,11 +166,11 @@ async function loadDetails(date) {
             </table>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div><h4 class="font-bold text-sm mb-2">نمودار میلهای (درصد هر درس)</h4>
-                <div id="chartBar" style="height:220px"></div></div>
-            <div><h4 class="font-bold text-sm mb-2">نمودار عملکرد کلی</h4>
+            <div class="exam-chart-panel"><h4 class="exam-chart-title">درصد هر درس</h4>
+                <div id="chartBar" class="exam-chart exam-bar-chart"></div></div>
+            <div class="exam-chart-panel"><h4 class="exam-chart-title">ترکیب پاسخ‌ها</h4>
                 <div class="flex items-center justify-center">
-                    <div id="chartDonut" style="height:200px;width:200px"></div>
+                    <div id="chartDonut" class="exam-chart exam-donut-chart"></div>
                 </div>
             </div>
         </div>`;
@@ -179,14 +179,54 @@ async function loadDetails(date) {
 
         /* bar chart */
         const barOpts = {
-            chart: { type: 'bar', height: 220, toolbar: { show: false }, fontFamily: 'inherit' },
+            chart: {
+                type: 'bar',
+                height: Math.max(220, sorted.length * 42),
+                toolbar: { show: false },
+                fontFamily: 'Vazirmatn, sans-serif',
+                parentHeightOffset: 0,
+                background: 'transparent',
+            },
             series: [{ name: 'درصد', data: sorted.map(s => parseFloat(s.percentage || 0)) }],
-            xaxis: { categories: sorted.map(s => s.subject), labels: { style: { fontSize: '11px' } } },
-            yaxis: { max: 100, labels: { formatter: v => v + '%' } },
-            plotOptions: { bar: { borderRadius: 4, distributed: true, colors: { ranges: [{ from: 0, to: 100, color: '#445D84' }] } } },
-            dataLabels: { enabled: true, formatter: v => v + '%' },
-            grid: { borderColor: '#e5e7eb' },
-            colors: ['#445D84', '#10b981', '#f59e0b', '#ef4444', '#8b786d', '#3b82f6'],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '42%',
+                    borderRadius: 4,
+                    borderRadiusApplication: 'end',
+                },
+            },
+            dataLabels: {
+                enabled: true,
+                offsetY: -5,
+                formatter: value => `${Number(value).toFixed(0)}%`,
+                style: { colors: ['#2a3a52'], fontSize: '10px', fontWeight: 600 },
+                background: { enabled: false },
+            },
+            colors: ['#445d84'],
+            fill: { opacity: 0.92 },
+            xaxis: {
+                categories: sorted.map(s => s.subject),
+                labels: {
+                    show: true,
+                    rotate: -35,
+                    rotateAlways: false,
+                    hideOverlappingLabels: false,
+                    trim: true,
+                    maxHeight: 64,
+                    style: { colors: '#404040', fontSize: '10px', fontWeight: 500 },
+                },
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+            },
+            yaxis: {
+                min: 0,
+                max: 100,
+                tickAmount: 4,
+                labels: { formatter: value => `${value}%`, style: { colors: '#737373', fontSize: '10px' } },
+            },
+            grid: { show: false, padding: { top: 14, right: 4, bottom: 8, left: 4 } },
+            tooltip: { theme: 'light', y: { formatter: v => `${Number(v).toFixed(1)}%` } },
         };
         if (_barChart) { _barChart.destroy(); _barChart = null; }
         _barChart = new ApexCharts(document.getElementById('chartBar'), barOpts);
@@ -201,13 +241,27 @@ async function loadDetails(date) {
         }, { correct: 0, wrong: 0, skipped: 0 });
 
         const donutOpts = {
-            chart: { type: 'donut', height: 200, fontFamily: 'inherit' },
+            chart: { type: 'donut', height: 220, fontFamily: 'Vazirmatn, sans-serif', background: 'transparent' },
             series: [totals.correct, totals.wrong, totals.skipped],
             labels: ['درست', 'غلط', 'نزده'],
-            colors: ['#10b981', '#ef4444', '#94a3b8'],
+            colors: ['#059669', '#dc2626', '#a3a3a3'],
+            stroke: { width: 3, colors: ['#fff'] },
             dataLabels: { enabled: false },
-            tooltip: { y: { formatter: v => `${v} سوال` } },
-            legend: { position: 'bottom', show: true },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '72%',
+                        labels: {
+                            show: true,
+                            name: { show: true, offsetY: 19, color: '#737373', fontSize: '11px' },
+                            value: { show: true, offsetY: -8, color: '#2a3a52', fontSize: '24px', fontWeight: 700, formatter: v => v },
+                            total: { show: true, showAlways: true, label: 'کل سوالات', color: '#737373', fontSize: '11px', formatter: w => w.globals.seriesTotals.reduce((a, b) => a + b, 0) },
+                        },
+                    },
+                },
+            },
+            tooltip: { theme: 'light', y: { formatter: v => `${v} سوال` } },
+            legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '11px', markers: { width: 8, height: 8, radius: 8 }, itemMargin: { horizontal: 8, vertical: 0 } },
         };
         if (_donutChart) { _donutChart.destroy(); _donutChart = null; }
         _donutChart = new ApexCharts(document.getElementById('chartDonut'), donutOpts);

@@ -365,7 +365,7 @@ input[type="range"]::-webkit-slider-thumb {
     bottom: 0;
     width: calc(var(--ds-space-10) + var(--ds-space-2));
     /* 40px + 4px = 44px minimal, but we use 18rem below */
-    z-index: 50;
+    z-index: 500;
     display: flex !important;
     flex-direction: column;
     flex-shrink: 0;
@@ -1979,7 +1979,46 @@ body {
     white-space: nowrap;
 }
 
+.exam-chart-panel {
+    min-width: 0;
+    padding: var(--ds-space-4);
+    border: 1px solid var(--ds-color-border);
+    border-radius: var(--ds-radius-lg);
+    background: var(--ds-color-surface);
+}
+
+.exam-chart-title {
+    margin: 0 0 var(--ds-space-2);
+    color: var(--ds-color-primary-800);
+    font-size: var(--ds-text-sm);
+    font-weight: var(--ds-weight-semibold);
+}
+
+.exam-chart {
+    width: 100%;
+}
+
+.exam-bar-chart {
+    min-height: 260px;
+}
+
+.exam-donut-chart {
+    min-height: 220px;
+    max-width: 300px;
+}
+
+@media (max-width: 767px) {
+    .exam-chart-panel {
+        padding: var(--ds-space-3);
+    }
+
+    .exam-donut-chart {
+        min-height: 200px;
+    }
+}
+
 @media (min-width: 768px) {
+
     .exam-details-table th:first-child,
     .exam-details-table td:first-child {
         width: 22%;
@@ -2079,10 +2118,21 @@ body {
         font-weight: var(--ds-weight-normal);
     }
 
-    table.responsive-table.exam-details-table tbody td:nth-child(3)::after { content: 'سوال'; }
-    table.responsive-table.exam-details-table tbody td:nth-child(4)::after { content: 'درست'; }
-    table.responsive-table.exam-details-table tbody td:nth-child(5)::after { content: 'غلط'; }
-    table.responsive-table.exam-details-table tbody td:nth-child(6)::after { content: 'نزده'; }
+    table.responsive-table.exam-details-table tbody td:nth-child(3)::after {
+        content: 'سوال';
+    }
+
+    table.responsive-table.exam-details-table tbody td:nth-child(4)::after {
+        content: 'درست';
+    }
+
+    table.responsive-table.exam-details-table tbody td:nth-child(5)::after {
+        content: 'غلط';
+    }
+
+    table.responsive-table.exam-details-table tbody td:nth-child(6)::after {
+        content: 'نزده';
+    }
 
     table.responsive-table.exam-details-table tbody td:last-child {
         grid-column: 5;

@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../shared/php/config.php'; ?>
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -9,12 +10,13 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#445D84">
     <title>پنل کاربری - آموزشگاه فامو</title>
-    <link rel="stylesheet" href="../shared/css/output.css">
-    <link rel="stylesheet" href="../shared/css/fonts.css">
+    <?php echo famo_config_script(); ?>
+    <link rel="stylesheet" href="<?php echo famo_asset('css/output.css', '../shared/css/output.css'); ?>">
+    <link rel="stylesheet" href="<?php echo famo_asset('css/fonts.css', '../shared/css/fonts.css'); ?>">
     <link rel="stylesheet" href="assets/css/dashboard.css">
-    <script src="../shared/js/libs/apexcharts.min.js"></script>
-    <script src="../shared/js/libs/lucide.min.js"></script>
-    <script src="../shared/js/lucide-adapter.js"></script>
+    <script src="<?php echo famo_asset('js/libs/apexcharts.min.js', '../shared/js/libs/apexcharts.min.js'); ?>"></script>
+    <script src="<?php echo famo_asset('js/libs/lucide.min.js', '../shared/js/libs/lucide.min.js'); ?>"></script>
+    <script src="<?php echo famo_asset('js/lucide-adapter.js', '../shared/js/lucide-adapter.js'); ?>"></script>
     <script type="module" src="assets/js/app.js"></script>
 </head>
 
