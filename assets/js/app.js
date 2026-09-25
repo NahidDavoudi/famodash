@@ -3,7 +3,7 @@
  *
  * Auth guard, navigation, logout, shared state.
  */
-const { default: API } = await import(`${window.APP_CONFIG.assetUrl}/js/api.js`);
+const { default: API, onReady } = await import(`${window.APP_CONFIG.assetUrl}/js/api.js`);
 
 /* ── Shared state ── */
 let _studentId = null;
@@ -134,4 +134,4 @@ export async function navigateTo(page) {
 /* ── Start ── */
 window.navigateTo = navigateTo;
 
-document.addEventListener('DOMContentLoaded', init);
+onReady(init);
