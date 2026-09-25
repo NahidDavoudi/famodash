@@ -1,7 +1,7 @@
 /**
  * Profile page — read-only student info.
  */
-import API from '../shared/js/api.js';
+const { default: API } = await import(`${window.APP_CONFIG.assetUrl}/js/api.js`);
 import { getStudentId } from './app.js';
 
 export async function load() {

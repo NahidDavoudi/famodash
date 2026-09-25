@@ -11,7 +11,6 @@
     <meta name="theme-color" content="#445D84">
     <title>پنل کاربری - آموزشگاه فامو</title>
     <?php echo famo_config_script(); ?>
-    <script src="config.js"></script>
     <link rel="stylesheet" href="<?php echo famo_asset('css/output.css', '../shared/css/output.css'); ?>">
     <link rel="stylesheet" href="<?php echo famo_asset('css/fonts.css', '../shared/css/fonts.css'); ?>">
     <link rel="stylesheet" href="assets/css/dashboard.css">

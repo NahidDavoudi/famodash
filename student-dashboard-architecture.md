@@ -39,7 +39,7 @@ dashboard/
 │   │   ├── files.js
 │   │   └── profile.js
 │   └── css/                   # دست‌نخورده
-└── (import از) ../shared/js/api.js   # تغییر نمی‌کند
+└── (import پویا از ASSET_URL تنظیم‌شده در APP_CONFIG)
 ```
 
 ### حذف فیزیکی (تأییدشده در پلن مهاجرت)
@@ -50,7 +50,7 @@ dashboard/
 ## ۲. جریان احراز هویت (در `app.js`، اجرا در هر بارگذاری صفحه)
 
 ```
-1. import API from '../shared/js/api.js'
+1. import API dynamically from window.APP_CONFIG.assetUrl + '/js/api.js'
 2. const me = await API.getMe()
 3. if (me === null) → location.replace('../login/?return_url=/dashboard/')
 4. if (me.role !== 'student') → location.replace('../admin/')

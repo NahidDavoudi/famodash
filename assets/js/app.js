@@ -3,7 +3,7 @@
  *
  * Auth guard, navigation, logout, shared state.
  */
-import API from '../shared/js/api.js';
+const { default: API } = await import(`${window.APP_CONFIG.assetUrl}/js/api.js`);
 
 /* ── Shared state ── */
 let _studentId = null;
@@ -17,11 +17,13 @@ async function init() {
     _user = await API.getMe();
     if (!_user) {
         const returnUrl = `${window.location.pathname}${window.location.search}`;
-        window.location.replace(`../login/?return_url=${encodeURIComponent(returnUrl)}`);
+        const loginBase = window.APP_CONFIG && window.APP_CONFIG.loginUrl;
+        window.location.replace(`${loginBase}/?return_url=${encodeURIComponent(returnUrl)}`);
         return;
     }
     if (_user.role !== 'student') {
-        window.location.replace('../admin/');
+        const adminBase = window.APP_CONFIG && window.APP_CONFIG.adminUrl;
+        window.location.replace(`${adminBase}/`);
         return;
     }
     if (!_user.student_id) {
@@ -46,7 +48,8 @@ async function init() {
     document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
         e.preventDefault();
         await API.logout();
-        window.location.replace('../login/');
+        const loginBase = window.APP_CONFIG && window.APP_CONFIG.loginUrl;
+        window.location.replace(`${loginBase}/`);
     });
 
     /* mobile sidebar toggle */

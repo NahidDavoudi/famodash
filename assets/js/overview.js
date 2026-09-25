@@ -1,7 +1,7 @@
 /**
  * Overview page — stat cards, trend chart, student info.
  */
-import API from '../shared/js/api.js';
+const { default: API } = await import(`${window.APP_CONFIG.assetUrl}/js/api.js`);
 import { getStudentId, getUserInfo } from './app.js';
 import { toJalali } from './date.js';
 
